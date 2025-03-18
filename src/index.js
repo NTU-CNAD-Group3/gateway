@@ -72,10 +72,9 @@ app.use((err, req, res, next) => {
   if (err) {
     res.status(err.statusCode || 500).json({
       message: err.message,
-      status: err.status,
     });
     logger.error({
-      message: `msg=Error handler error=${err.message}`,
+      message: `msg=Error occured method=${req.method} path=${req.route.path} ip=${req.ip} status=${res.statusCode} url=${req.originalUrl} error=${err.message}`,
     });
   }
 });
