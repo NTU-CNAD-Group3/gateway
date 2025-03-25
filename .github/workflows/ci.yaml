@@ -7,9 +7,6 @@ on:
   pull_request:
     branches:
       - main
-  pull_request_target:
-    branches:
-      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,7 +16,8 @@ concurrency:
 jobs:
   lint:
     uses: NTU-CNAD-Group3/cicd-workflows/.github/workflows/lint-ci.yaml@main
+    secrets: inherit
 
   sonarqube:
-    needs: lint
     uses: NTU-CNAD-Group3/cicd-workflows/.github/workflows/sonarqube-ci.yaml@main
+    secrets: inherit
