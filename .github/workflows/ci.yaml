@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+
+jobs:
+  lint:
+    steps:
+      - name: Lint CI
+        uses: NTU-CNAD-Group3/cicd-workflows/.github/workflows/lint-ci@main
+
+  sonarqube:
+    needs: lint
+    steps:
+      - name: Test CI
+        uses: NTU-CNAD-Group3/cicd-workflows/.github/workflows/sonarqube-ci@main
