@@ -11,7 +11,6 @@ class Config {
     this.REDIS_HOST = process.env.REDIS_HOST || 'localhost';
     this.REDIS_PORT = process.env.REDIS_PORT || 6379;
     this.REDIS_PASSWORD = process.env.REDIS_PASSWORD || 'redis';
-    this.LOKI_HOST = process.env.LOKI_HOST || 'http://localhost:3100';
   }
 }
 
