@@ -13,7 +13,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-
 jobs:
   lint:
     uses: NTU-CNAD-Group3/cicd-workflows/.github/workflows/lint-ci.yaml@main
