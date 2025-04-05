@@ -1,4 +1,4 @@
-import { signinService, signupService, verifyEmailService } from '@/services/auth.service.js';
+import { signinService, signupService, verifyEmailService } from '#src/services/auth.service.js';
 
 export const signup = async (req, res, next) => {
   const response = await signupService(req);

@@ -8,10 +8,10 @@ import session from 'express-session';
 import helmet from 'helmet';
 import hpp from 'hpp';
 
-import config from '@/config.js';
-import createRedisClient from '@/models/redis.js';
-import logger from '@/utils/logger.js';
-import routes from '@/routes/index.js';
+import config from '#src/config.js';
+import createRedisClient from '#src/models/redis.js';
+import logger from '#src/utils/logger.js';
+import routes from '#src/routes/index.js';
 
 const app = express();
 

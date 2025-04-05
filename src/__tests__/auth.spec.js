@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { signout } from '@/controllers/auth.controller.js';
+import { signout } from '#src/controllers/auth.controller.js';
 
 describe('Auth Controller', () => {
   let req;

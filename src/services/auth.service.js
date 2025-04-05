@@ -1,4 +1,4 @@
-import instance from '@/utils/axios.js';
+import instance from '#src/utils/axios.js';
 
 let axios = instance.create('auth');
 

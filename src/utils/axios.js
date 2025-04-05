@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import config from '@/config.js';
+import config from '#src/config.js';
 
 class AxiosService {
   create(serviceName) {
