@@ -1,6 +1,6 @@
 import instance from '#src/utils/axios.js';
 
-let axios = instance.create('auth');
+const axios = instance.create('auth');
 
 export const signupService = async (req) => {
   const response = await axios.post('/signup', req.body);

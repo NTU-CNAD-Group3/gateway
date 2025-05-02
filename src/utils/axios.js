@@ -9,6 +9,9 @@ class AxiosService {
       case 'auth':
         baseUrl = `${config.AUTH_BASE_URL}/api/${config.API_VERSION}/auth`;
         break;
+      case 'backend':
+        baseUrl = `${config.BACKEND_BASE_URL}/api`;
+        break;
       default:
         throw new Error('Service not found');
     }
