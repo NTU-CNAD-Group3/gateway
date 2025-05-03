@@ -9,8 +9,10 @@ const BASE_PATH = `/${config.API_VERSION}/gateway`;
 router.get('/healthy', (req, res) => {
   res.send('API Gateway service is healthy.');
 });
-
+router.get('/test', (req, res) => {
+  res.send('Test backend route hit');
+});
 router.use(BASE_PATH, authRoutes);
-router.use(`${BASE_PATH}/backend`, backendRoutes);
+router.use(BASE_PATH, backendRoutes);
 
 export default router;
