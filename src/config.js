@@ -14,6 +14,9 @@ class Config {
     this.REDIS_PASSWORD = process.env.REDIS_PASSWORD || 'redis';
     this.GET_DC = '/fab';
     this.CREATE_DC = '/fab';
+    this.GET_ALL_DC = '/fab/allFabs';
+    this.UPDATE_DC = '/fab';
+    this.DELETE_DC = '/fab';
   }
 }
 export default new Config();
