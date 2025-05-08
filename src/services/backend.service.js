@@ -20,6 +20,6 @@ export const updateDcService = async (req) => {
 };
 
 export const deleteDcService = async (req) => {
-  const response = await axios.delete(config.DELETE_DC, { data:req.body});
+  const response = await axios.delete(config.DELETE_DC, { data: req.body });
   return response;
 };

@@ -1,4 +1,7 @@
 import { jest } from '@jest/globals';
+
+import { authenticateToken } from '#src/middleware/authenticate.js';
+import { authorize } from '#src/middleware/authorize.js';
 const mockVerify = jest.fn();
 
 await jest.unstable_mockModule('jsonwebtoken', () => ({
@@ -6,9 +9,6 @@ await jest.unstable_mockModule('jsonwebtoken', () => ({
     verify: mockVerify,
   },
 }));
-
-import { authenticateToken } from '#src/middleware/authenticate.js';
-import {  authorize } from '#src/middleware/authorize.js';
 
 const mockReq = (headers = {}) => ({
   headers,
@@ -57,11 +57,10 @@ describe('authenticateToken', () => {
 
     mockVerify.mockImplementation((token, secret, cb) => cb(null, decoded));
 
-    authenticateToken(req, res, () => {
-        expect(req.user).toEqual(decoded);
-        done();
-      });
-
+    authenticateToken(req, res, (done) => {
+      expect(req.user).toEqual(decoded);
+      done();
+    });
   });
 });
 
