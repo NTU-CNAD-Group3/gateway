@@ -31,3 +31,8 @@ cp .env.development .env
 |   /api/v1/gateway/auth/signout    |  POST  |           Signout user           |
 |    /api/v1/gateway/auth/signin    |  POST  |           Signin user            |
 | /api/v1/gateway/auth/verify-email |  PUT   |        Verify user email         |
+|     /api/v1/gateway/backend/DC    |  GET   |      get DC details with id      |
+|     /api/v1/gateway/backend/DC    |  PUT   |  Update DC with id,name,roomNum  |
+|     /api/v1/gateway/backend/DC    |  POST  |       create DC with name        |
+|     /api/v1/gateway/backend/DC    | DELETE |       delete DC with name        |
+|    /api/v1/gateway/backend/allDC  |  GET   |      get visual information      |
