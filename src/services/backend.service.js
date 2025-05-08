@@ -27,7 +27,7 @@ export const deleteDcService = async (req) => {
 
 // 機房
 export const getRoomService = async (req) => {
-  const response = await axios.get(config.GET_ROOM, { params: req.query });
+  const response = await axios.get(config.GET_ROOM, {params: req.query});
   return response;
 };
 export const createRoomsService = async (req) => {
