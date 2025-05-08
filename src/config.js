@@ -17,6 +17,10 @@ class Config {
     this.GET_ALL_DC = '/fab/allFabs';
     this.UPDATE_DC = '/fab';
     this.DELETE_DC = '/fab';
+    this.GET_ROOM = '/room';
+    this.CREATE_ROOMS = '/room';
+    this.UPDATE_ROOM = '/room';
+    this.DELETE_ROOM = '/room';
   }
 }
 export default new Config();

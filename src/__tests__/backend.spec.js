@@ -4,6 +4,10 @@ const getDcService = jest.fn();
 const getAllDcService = jest.fn();
 const updateDcService = jest.fn();
 const deleteDcService = jest.fn();
+const createRoomsService = jest.fn();
+const getRoomService = jest.fn();
+const updateRoomService = jest.fn();
+const deleteRoomService = jest.fn();
 
 await jest.unstable_mockModule('#src/services/backend.service.js', () => ({
   createDcService,
@@ -11,10 +15,14 @@ await jest.unstable_mockModule('#src/services/backend.service.js', () => ({
   getAllDcService,
   updateDcService,
   deleteDcService,
+  createRoomsService,
+  getRoomService,
+  updateRoomService,
+  deleteRoomService,
 }));
 
 const { createDc, getDc, getAllDc, updateDc, deleteDc } = await import('#src/controllers/backend.controller.js');
-
+const { createRooms, getRoom, updateRoom, deleteRoom } =await import( '#src/controllers/backend.controller.js');
 const mockReq = () => ({
   session: {
     regenerate: jest.fn((cb) => cb(null)),
@@ -131,6 +139,167 @@ describe('DC Controllers', () => {
     createDcService.mockResolvedValue({ data: {} });
 
     await createDc(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+});
+describe('Room Controllers', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('createRooms should respond with 201 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { id: 1, name: 'Room 1' } };
+    createRoomsService.mockResolvedValue(mockData);
+
+    await createRooms(req, res, next);
+
+    expect(createRoomsService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('getRoom should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { id: 1, name: 'Room 1' } };
+    getRoomService.mockResolvedValue(mockData);
+
+    await getRoom(req, res, next);
+
+    expect(getRoomService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('updateRoom should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { id: 1, name: 'Updated Room' } };
+    updateRoomService.mockResolvedValue(mockData);
+
+    await updateRoom(req, res, next);
+
+    expect(updateRoomService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('deleteRoom should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { success: true } };
+    deleteRoomService.mockResolvedValue(mockData);
+
+    await deleteRoom(req, res, next);
+
+    expect(deleteRoomService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('createRooms should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    createRoomsService.mockResolvedValue({ data: {} });
+
+    await createRooms(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('createRooms should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    createRoomsService.mockResolvedValue({ data: {} });
+
+    await createRooms(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('getRoom should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    getRoomService.mockResolvedValue({ data: {} });
+
+    await getRoom(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('getRoom should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    getRoomService.mockResolvedValue({ data: {} });
+
+    await getRoom(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('updateRoom should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    updateRoomService.mockResolvedValue({ data: {} });
+
+    await updateRoom(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('updateRoom should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    updateRoomService.mockResolvedValue({ data: {} });
+
+    await updateRoom(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('deleteRoom should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    deleteRoomService.mockResolvedValue({ data: {} });
+
+    await deleteRoom(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('deleteRoom should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    deleteRoomService.mockResolvedValue({ data: {} });
+
+    await deleteRoom(req, res, next);
 
     expect(next).toHaveBeenCalledWith(err);
   });

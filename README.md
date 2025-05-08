@@ -36,3 +36,7 @@ cp .env.development .env
 |     /api/v1/gateway/backend/DC    |  POST  |       create DC with name        |
 |     /api/v1/gateway/backend/DC    | DELETE |       delete DC with name        |
 |    /api/v1/gateway/backend/allDC  |  GET   |      get visual information      |
+|     /api/v1/gateway/backend/rooms |  POST  |create rooms with fname,num,array |
+|     /api/v1/gateway/backend/room  |  PUT   | Update room with id,name,rackNum |
+|     /api/v1/gateway/backend/room  | DELETE |      delete room with name,id    |
+|     /api/v1/gateway/backend/room  |  GET   |  get room details with name,id   |
