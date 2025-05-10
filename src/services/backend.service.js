@@ -27,7 +27,7 @@ export const deleteDcService = async (req) => {
 
 // 機房
 export const getRoomService = async (req) => {
-  const response = await axios.get(config.GET_ROOM, {params: req.query});
+  const response = await axios.get(config.GET_ROOM, { params: req.query });
   return response;
 };
 export const createRoomsService = async (req) => {
@@ -41,5 +41,24 @@ export const updateRoomService = async (req) => {
 
 export const deleteRoomService = async (req) => {
   const response = await axios.delete(config.DELETE_ROOM, { data: req.body });
+  return response;
+};
+
+// 機櫃
+export const getRackService = async (req) => {
+  const response = await axios.get(config.GET_RACK, { params: req.query });
+  return response;
+};
+export const createRacksService = async (req) => {
+  const response = await axios.post(config.CREATE_RACKS, req.body);
+  return response;
+};
+export const updateRackService = async (req) => {
+  const response = await axios.put(config.UPDATE_RACK, req.body);
+  return response;
+};
+
+export const deleteRackService = async (req) => {
+  const response = await axios.delete(config.DELETE_RACK, { data: req.body });
   return response;
 };

@@ -8,6 +8,10 @@ const createRoomsService = jest.fn();
 const getRoomService = jest.fn();
 const updateRoomService = jest.fn();
 const deleteRoomService = jest.fn();
+const createRacksService = jest.fn();
+const getRackService = jest.fn();
+const updateRackService = jest.fn();
+const deleteRackService = jest.fn();
 
 await jest.unstable_mockModule('#src/services/backend.service.js', () => ({
   createDcService,
@@ -19,10 +23,16 @@ await jest.unstable_mockModule('#src/services/backend.service.js', () => ({
   getRoomService,
   updateRoomService,
   deleteRoomService,
+  createRacksService,
+  getRackService,
+  updateRackService,
+  deleteRackService,
 }));
 
 const { createDc, getDc, getAllDc, updateDc, deleteDc } = await import('#src/controllers/backend.controller.js');
-const { createRooms, getRoom, updateRoom, deleteRoom } =await import( '#src/controllers/backend.controller.js');
+const { createRooms, getRoom, updateRoom, deleteRoom } = await import('#src/controllers/backend.controller.js');
+const { createRacks, getRack, updateRack, deleteRack } = await import('#src/controllers/backend.controller.js');
+
 const mockReq = () => ({
   session: {
     regenerate: jest.fn((cb) => cb(null)),
@@ -300,6 +310,167 @@ describe('Room Controllers', () => {
     deleteRoomService.mockResolvedValue({ data: {} });
 
     await deleteRoom(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+});
+describe('Rack Controllers', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('createRacks should respond with 201 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { id: 1, name: 'Rack 1' } };
+    createRacksService.mockResolvedValue(mockData);
+
+    await createRacks(req, res, next);
+
+    expect(createRacksService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('getRack should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { id: 1, name: 'Rack 1' } };
+    getRackService.mockResolvedValue(mockData);
+
+    await getRack(req, res, next);
+
+    expect(getRackService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('updateRack should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { id: 1, name: 'Updated Rack' } };
+    updateRackService.mockResolvedValue(mockData);
+
+    await updateRack(req, res, next);
+
+    expect(updateRackService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('deleteRack should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { success: true } };
+    deleteRackService.mockResolvedValue(mockData);
+
+    await deleteRack(req, res, next);
+
+    expect(deleteRackService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('createRacks should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    createRacksService.mockResolvedValue({ data: {} });
+
+    await createRacks(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('createRacks should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    createRacksService.mockResolvedValue({ data: {} });
+
+    await createRacks(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('getRack should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    getRackService.mockResolvedValue({ data: {} });
+
+    await getRack(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('getRack should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    getRackService.mockResolvedValue({ data: {} });
+
+    await getRack(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('updateRack should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    updateRackService.mockResolvedValue({ data: {} });
+
+    await updateRack(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('updateRack should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    updateRackService.mockResolvedValue({ data: {} });
+
+    await updateRack(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('deleteRack should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    deleteRackService.mockResolvedValue({ data: {} });
+
+    await deleteRack(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+
+  test('deleteRack should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    deleteRackService.mockResolvedValue({ data: {} });
+
+    await deleteRack(req, res, next);
 
     expect(next).toHaveBeenCalledWith(err);
   });
