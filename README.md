@@ -40,3 +40,7 @@ cp .env.development .env
 |     /api/v1/gateway/backend/room  |  PUT   | Update room with id,name,rackNum |
 |     /api/v1/gateway/backend/room  | DELETE |      delete room with name,id    |
 |     /api/v1/gateway/backend/room  |  GET   |  get room details with name,id   |
+|     /api/v1/gateway/backend/racks |  POST  |create racks with fname,num,array |
+|     /api/v1/gateway/backend/rack  |  PUT   | Update rack with id,name         |
+|     /api/v1/gateway/backend/rack  | DELETE |      delete rack with r/rk,id    |
+|     /api/v1/gateway/backend/rack  |  GET   |    get rack with name,r/rkid     |
