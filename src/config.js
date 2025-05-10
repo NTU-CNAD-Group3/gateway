@@ -21,6 +21,10 @@ class Config {
     this.CREATE_ROOMS = '/room';
     this.UPDATE_ROOM = '/room';
     this.DELETE_ROOM = '/room';
+    this.GET_RACK = '/rack';
+    this.CREATE_RACKS = '/rack';
+    this.UPDATE_RACK = '/rack';
+    this.DELETE_RACK = '/rack';
   }
 }
 export default new Config();

@@ -1,16 +1,6 @@
-import {
-  getDcService,
-  createDcService,
-  getAllDcService,
-  updateDcService,
-  deleteDcService,
-  getRoomService,
-  createRoomsService,
-  updateRoomService,
-  deleteRoomService,
-} from '#src/services/backend.service.js';
+import * as backendService from '#src/services/backend.service.js';
 export const createDc = async (req, res, next) => {
-  const response = await createDcService(req);
+  const response = await backendService.createDcService(req);
 
   req.session.regenerate(function (err) {
     if (err) next(err);
@@ -23,7 +13,7 @@ export const createDc = async (req, res, next) => {
 };
 
 export const getDc = async (req, res, next) => {
-  const response = await getDcService(req);
+  const response = await backendService.getDcService(req);
 
   req.session.regenerate(function (err) {
     if (err) return next(err);
@@ -35,7 +25,7 @@ export const getDc = async (req, res, next) => {
   });
 };
 export const getAllDc = async (req, res, next) => {
-  const response = await getAllDcService(req);
+  const response = await backendService.getAllDcService(req);
 
   req.session.regenerate(function (err) {
     if (err) return next(err);
@@ -47,7 +37,7 @@ export const getAllDc = async (req, res, next) => {
   });
 };
 export const updateDc = async (req, res, next) => {
-  const response = await updateDcService(req);
+  const response = await backendService.updateDcService(req);
 
   req.session.regenerate(function (err) {
     if (err) return next(err);
@@ -60,7 +50,7 @@ export const updateDc = async (req, res, next) => {
 };
 
 export const deleteDc = async (req, res, next) => {
-  const response = await deleteDcService(req);
+  const response = await backendService.deleteDcService(req);
 
   req.session.regenerate(function (err) {
     if (err) return next(err);
@@ -73,7 +63,7 @@ export const deleteDc = async (req, res, next) => {
 };
 
 export const createRooms = async (req, res, next) => {
-  const response = await createRoomsService(req);
+  const response = await backendService.createRoomsService(req);
 
   req.session.regenerate(function (err) {
     if (err) next(err);
@@ -86,7 +76,7 @@ export const createRooms = async (req, res, next) => {
 };
 
 export const getRoom = async (req, res, next) => {
-  const response = await getRoomService(req);
+  const response = await backendService.getRoomService(req);
 
   req.session.regenerate(function (err) {
     if (err) return next(err);
@@ -98,7 +88,7 @@ export const getRoom = async (req, res, next) => {
   });
 };
 export const updateRoom = async (req, res, next) => {
-  const response = await updateRoomService(req);
+  const response = await backendService.updateRoomService(req);
 
   req.session.regenerate(function (err) {
     if (err) return next(err);
@@ -110,7 +100,57 @@ export const updateRoom = async (req, res, next) => {
   });
 };
 export const deleteRoom = async (req, res, next) => {
-  const response = await deleteRoomService(req);
+  const response = await backendService.deleteRoomService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
+
+export const createRacks = async (req, res, next) => {
+  const response = await backendService.createRacksService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(201).json(response.data);
+    });
+  });
+};
+
+export const getRack = async (req, res, next) => {
+  const response = await backendService.getRackService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
+export const updateRack = async (req, res, next) => {
+  const response = await backendService.updateRackService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
+export const deleteRack = async (req, res, next) => {
+  const response = await backendService.deleteRackService(req);
 
   req.session.regenerate(function (err) {
     if (err) return next(err);
