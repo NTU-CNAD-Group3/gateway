@@ -26,8 +26,8 @@ router.delete('/backend/rack', authenticateToken, authorize(['admin']), backendC
 
 // Server
 router.post('/backend/server', authenticateToken, authorize(['user', 'admin']), backendController.createServer);
-router.get('/backend/server', authenticateToken, authorize(['user', 'admin']), backendController.getServer); 
-router.put('/backend/server', authenticateToken, authorize(['user', 'admin']), backendController.updateServer); 
+router.get('/backend/server', authenticateToken, authorize(['user', 'admin']), backendController.getServer);
+router.put('/backend/server', authenticateToken, authorize(['user', 'admin']), backendController.updateServer);
 router.delete('/backend/server', authenticateToken, authorize(['user', 'admin']), backendController.deleteServer);
 router.get('/backend/server/allServer', authenticateToken, authorize(['user', 'admin']), backendController.getAllServer);
 // IP

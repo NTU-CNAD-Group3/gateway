@@ -117,7 +117,7 @@ export const getUsedIpService = async (req) => {
 export const getIpPoolService = async (req) => {
   const response = await axios.get(config.GET_IP_POOL, { params: req.query });
   return response;
-}
+};
 
 export const getAllIpPoolsService = async (req) => {
   const response = await axios.get(config.GET_ALL_IP_POOLS, req.body);
