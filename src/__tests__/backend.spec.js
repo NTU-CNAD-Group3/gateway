@@ -12,6 +12,18 @@ const createRacksService = jest.fn();
 const getRackService = jest.fn();
 const updateRackService = jest.fn();
 const deleteRackService = jest.fn();
+const getServerService = jest.fn();
+const createServerService = jest.fn();
+const updateServerService = jest.fn();
+const deleteServerService = jest.fn();
+const getAllServerService = jest.fn();
+const assignService = jest.fn();
+const createIpPoolService = jest.fn();
+const releaseService = jest.fn();
+const getAllIpService = jest.fn();
+const getUsedIpService = jest.fn();
+const getIpPoolService = jest.fn();
+const getAllIpPoolsService = jest.fn();
 
 await jest.unstable_mockModule('#src/services/backend.service.js', () => ({
   createDcService,
@@ -27,11 +39,27 @@ await jest.unstable_mockModule('#src/services/backend.service.js', () => ({
   getRackService,
   updateRackService,
   deleteRackService,
+  getServerService,
+  createServerService,
+  updateServerService,
+  deleteServerService,
+  getAllServerService,
+  assignService,
+  createIpPoolService,
+  releaseService,
+  getAllIpService,
+  getUsedIpService,
+  getIpPoolService,
+  getAllIpPoolsService,
 }));
 
 const { createDc, getDc, getAllDc, updateDc, deleteDc } = await import('#src/controllers/backend.controller.js');
 const { createRooms, getRoom, updateRoom, deleteRoom } = await import('#src/controllers/backend.controller.js');
 const { createRacks, getRack, updateRack, deleteRack } = await import('#src/controllers/backend.controller.js');
+const { getServer, createServer, updateServer, deleteServer, getAllServer } = await import('#src/controllers/backend.controller.js');
+const { assign, createIpPool, release, getAllIp, getUsedIp, getIpPool, getAllIpPools } = await import(
+  '#src/controllers/backend.controller.js'
+);
 
 const mockReq = () => ({
   session: {
@@ -471,6 +499,461 @@ describe('Rack Controllers', () => {
     deleteRackService.mockResolvedValue({ data: {} });
 
     await deleteRack(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+});
+
+describe('Server Controllers', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('getServer should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { id: 1, name: 'Server 1' } };
+    getServerService.mockResolvedValue(mockData);
+
+    await getServer(req, res, next);
+
+    expect(getServerService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('createServer should respond with 201 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { id: 1, name: 'Server 1' } };
+    createServerService.mockResolvedValue(mockData);
+
+    await createServer(req, res, next);
+
+    expect(createServerService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('updateServer should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { id: 1, name: 'Updated Server' } };
+    updateServerService.mockResolvedValue(mockData);
+
+    await updateServer(req, res, next);
+
+    expect(updateServerService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('deleteServer should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { id: 1, name: 'Updated Server' } };
+    deleteServerService.mockResolvedValue(mockData);
+
+    await deleteServer(req, res, next);
+
+    expect(deleteServerService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('getAllServer should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: [{ id: 1 }, { id: 2 }] };
+    getAllServerService.mockResolvedValue(mockData);
+
+    await getAllServer(req, res, next);
+
+    expect(getAllServerService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+  test('getServer should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    getServerService.mockResolvedValue({ data: {} });
+
+    await getServer(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getServer should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    getServerService.mockResolvedValue({ data: {} });
+
+    await getServer(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('createServer should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    createServerService.mockResolvedValue({ data: {} });
+
+    await createServer(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('createServer should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    createServerService.mockResolvedValue({ data: {} });
+
+    await createServer(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('updateServer should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    updateServerService.mockResolvedValue({ data: {} });
+
+    await updateServer(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('updateServer should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    updateServerService.mockResolvedValue({ data: {} });
+
+    await updateServer(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('deleteServer should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    deleteServerService.mockResolvedValue({ data: {} });
+
+    await deleteServer(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('deleteServer should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    deleteServerService.mockResolvedValue({ data: {} });
+
+    await deleteServer(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getAllServer should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    getAllServerService.mockResolvedValue({ data: {} });
+
+    await getAllServer(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getAllServer should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    getAllServerService.mockResolvedValue({ data: {} });
+
+    await getAllServer(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+});
+
+describe('IP Controllers', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('assign should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = ['10.0.0.1', 1];
+    assignService.mockResolvedValue(mockData);
+
+    await assign(req, res, next);
+
+    expect(assignService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('createIpPool should respond with 201 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { id: 1, cidr: '10.0.0.0/24' } };
+    createIpPoolService.mockResolvedValue(mockData);
+
+    await createIpPool(req, res, next);
+
+    expect(createIpPoolService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('release should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = '10.0.0.1';
+    releaseService.mockResolvedValue(mockData);
+
+    await release(req, res, next);
+
+    expect(releaseService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('getAllIp should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: [{ id: 1 }, { id: 2 }] };
+    getAllIpService.mockResolvedValue(mockData);
+
+    await getAllIp(req, res, next);
+
+    expect(getAllIpService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('getUsedIp should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: [{ id: 1 }, { id: 2 }] };
+    getUsedIpService.mockResolvedValue(mockData);
+
+    await getUsedIp(req, res, next);
+
+    expect(getUsedIpService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+
+  test('getIpPool should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: { id: 1, cidr: '10.0.0.0/24' } };
+    getIpPoolService.mockResolvedValue(mockData);
+
+    await getIpPool(req, res, next);
+
+    expect(getIpPoolService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+  test('getAllIpPools should respond with 200 and data', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const mockData = { data: [{ id: 1 }, { id: 2 }] };
+    getAllIpPoolsService.mockResolvedValue(mockData);
+
+    await getAllIpPools(req, res, next);
+
+    expect(getAllIpPoolsService).toHaveBeenCalledWith(req);
+    expect(req.session.regenerate).toHaveBeenCalled();
+    expect(req.session.save).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockData.data);
+  });
+  test('assign should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    assignService.mockResolvedValue({ data: {} });
+
+    await assign(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('assign should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    assignService.mockResolvedValue({ data: {} });
+
+    await assign(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('createIpPool should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    createIpPoolService.mockResolvedValue({ data: {} });
+
+    await createIpPool(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('createIpPool should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    createIpPoolService.mockResolvedValue({ data: {} });
+
+    await createIpPool(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('release should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    releaseService.mockResolvedValue({ data: {} });
+
+    await release(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('release should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    releaseService.mockResolvedValue({ data: {} });
+
+    await release(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getAllIp should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    getAllIpService.mockResolvedValue({ data: {} });
+
+    await getAllIp(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getAllIp should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    getAllIpService.mockResolvedValue({ data: {} });
+
+    await getAllIp(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getUsedIp should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    getUsedIpService.mockResolvedValue({ data: {} });
+
+    await getUsedIp(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getUsedIp should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    getUsedIpService.mockResolvedValue({ data: {} });
+
+    await getUsedIp(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getIpPool should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    getIpPoolService.mockResolvedValue({ data: {} });
+
+    await getIpPool(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getIpPool should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    getIpPoolService.mockResolvedValue({ data: {} });
+
+    await getIpPool(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getAllIpPools should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    getAllIpPoolsService.mockResolvedValue({ data: {} });
+
+    await getAllIpPools(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getAllIpPools should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    getAllIpPoolsService.mockResolvedValue({ data: {} });
+
+    await getAllIpPools(req, res, next);
 
     expect(next).toHaveBeenCalledWith(err);
   });

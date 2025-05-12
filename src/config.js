@@ -25,6 +25,18 @@ class Config {
     this.CREATE_RACKS = '/rack';
     this.UPDATE_RACK = '/rack';
     this.DELETE_RACK = '/rack';
+    this.GET_SERVER = '/server';
+    this.CREATE_SERVER = '/server';
+    this.UPDATE_SERVER = '/server';
+    this.DELETE_SERVER = '/server';
+    this.GET_ALL_SERVER = '/server/allServers';
+    this.ASSIGN_IP = '/ip';
+    this.CREATE_IP_POOL = '/ip/pool';
+    this.RELEASE = '/ip';
+    this.GET_ALL_IP = '/ip/allIp';
+    this.GET_USED_IP = '/ip/usedIp';
+    this.GET_IP_POOL = '/ip/pool';
+    this.GET_ALL_IP_POOLS = '/ip/allPools';
   }
 }
 export default new Config();
