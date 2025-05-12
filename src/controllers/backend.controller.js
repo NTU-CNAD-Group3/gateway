@@ -161,3 +161,147 @@ export const deleteRack = async (req, res, next) => {
     });
   });
 };
+export const createServer = async (req, res, next) => {
+  const response = await backendService.createServerService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(201).json(response.data);
+    });
+  });
+};
+export const getServer = async (req, res, next) => {
+  const response = await backendService.getServerService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
+export const updateServer = async (req, res, next) => {
+  const response = await backendService.updateServerService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
+export const deleteServer = async (req, res, next) => {
+  const response = await backendService.deleteServerService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
+export const getAllServer = async (req, res, next) => {
+  const response = await backendService.getAllServerService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
+export const assign = async (req, res, next) => {
+  const response = await backendService.assignService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(201).json(response.data);
+    });
+  });
+};
+export const createIpPool = async (req, res, next) => {
+  const response = await backendService.createIpPoolService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(201).json(response.data);
+    });
+  });
+};
+export const release = async (req, res, next) => {
+  const response = await backendService.releaseService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
+export const getAllIp = async (req, res, next) => {
+  const response = await backendService.getAllIpService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
+export const getUsedIp = async (req, res, next) => {
+  const response = await backendService.getUsedIpService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
+export const getIpPool = async (req, res, next) => {
+  const response = await backendService.getIpPoolService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
+export const getAllIpPools = async (req, res, next) => {
+  const response = await backendService.getAllIpPoolsService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
