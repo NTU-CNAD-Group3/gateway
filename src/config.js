@@ -30,6 +30,9 @@ class Config {
     this.UPDATE_SERVER = '/server';
     this.DELETE_SERVER = '/server';
     this.GET_ALL_SERVER = '/server/allServers';
+    this.GET_SERVER_BY_NAME = '/server/name';
+    this.GET_SERVER_BY_IP = '/server/ip';
+    this.GET_SERVER_BY_SERVICE = '/server/service';
     this.ASSIGN_IP = '/ip';
     this.CREATE_IP_POOL = '/ip/pool';
     this.RELEASE = '/ip';

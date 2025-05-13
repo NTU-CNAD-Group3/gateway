@@ -221,6 +221,41 @@ export const getAllServer = async (req, res, next) => {
     });
   });
 };
+export const getServerByName = async (req, res, next) => {
+  const response = await backendService.getServerByNameService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
+export const getServerByIp = async (req, res, next) => {
+  const response = await backendService.getServerByIpService(req);
+
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
+export const getAllServerByService = async (req, res, next) => {
+  const response = await backendService.getServerByServiceService(req);
+  req.session.regenerate(function (err) {
+    if (err) return next(err);
+
+    req.session.save(function (err) {
+      if (err) return next(err);
+      res.status(200).json(response.data);
+    });
+  });
+};
 export const assign = async (req, res, next) => {
   const response = await backendService.assignService(req);
 

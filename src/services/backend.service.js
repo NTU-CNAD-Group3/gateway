@@ -88,6 +88,21 @@ export const getAllServerService = async (req) => {
   return response;
 };
 
+export const getServerByNameService = async (req) => {
+  const response = await axios.get(config.GET_SERVER_BY_NAME, { params: req.query });
+  return response;
+};
+
+export const getServerByIpService = async (req) => {
+  const response = await axios.get(config.GET_SERVER_BY_IP, { params: req.query });
+  return response;
+};
+
+export const getServerByServiceService = async (req) => {
+  const response = await axios.get(config.GET_SERVER_BY_SERVICE, { params: req.query });
+  return response;
+};
+
 // IP
 export const assignService = async (req) => {
   const response = await axios.post(config.ASSIGN_IP, req.body);

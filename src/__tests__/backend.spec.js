@@ -17,6 +17,9 @@ const createServerService = jest.fn();
 const updateServerService = jest.fn();
 const deleteServerService = jest.fn();
 const getAllServerService = jest.fn();
+const getServerByNameService = jest.fn();
+const getServerByIpService = jest.fn();
+const getServerByServiceService = jest.fn();
 const assignService = jest.fn();
 const createIpPoolService = jest.fn();
 const releaseService = jest.fn();
@@ -44,6 +47,9 @@ await jest.unstable_mockModule('#src/services/backend.service.js', () => ({
   updateServerService,
   deleteServerService,
   getAllServerService,
+  getServerByNameService,
+  getServerByIpService,
+  getServerByServiceService,
   assignService,
   createIpPoolService,
   releaseService,
@@ -56,7 +62,8 @@ await jest.unstable_mockModule('#src/services/backend.service.js', () => ({
 const { createDc, getDc, getAllDc, updateDc, deleteDc } = await import('#src/controllers/backend.controller.js');
 const { createRooms, getRoom, updateRoom, deleteRoom } = await import('#src/controllers/backend.controller.js');
 const { createRacks, getRack, updateRack, deleteRack } = await import('#src/controllers/backend.controller.js');
-const { getServer, createServer, updateServer, deleteServer, getAllServer } = await import('#src/controllers/backend.controller.js');
+const { getServer, createServer, updateServer, deleteServer, getAllServer, getServerByName, getServerByIp, getAllServerByService } =
+  await import('#src/controllers/backend.controller.js');
 const { assign, createIpPool, release, getAllIp, getUsedIp, getIpPool, getAllIpPools } = await import(
   '#src/controllers/backend.controller.js'
 );
@@ -690,6 +697,72 @@ describe('Server Controllers', () => {
     getAllServerService.mockResolvedValue({ data: {} });
 
     await getAllServer(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getServerByName should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    getServerByNameService.mockResolvedValue({ data: {} });
+
+    await getServerByName(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getServerByName should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    getServerByNameService.mockResolvedValue({ data: {} });
+
+    await getServerByName(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getServerByIp should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    getServerByIpService.mockResolvedValue({ data: {} });
+
+    await getServerByIp(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getServerByIp should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    getServerByIpService.mockResolvedValue({ data: {} });
+
+    await getServerByIp(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getAllServerByService should call next on regenerate error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Regenerate error');
+    req.session.regenerate = jest.fn((cb) => cb(err));
+    getServerByServiceService.mockResolvedValue({ data: {} });
+
+    await getAllServerByService(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(err);
+  });
+  test('getAllServerByService should call next on save error', async () => {
+    const req = mockReq();
+    const res = mockRes();
+    const err = new Error('Save error');
+    req.session.save = jest.fn((cb) => cb(err));
+    getServerByServiceService.mockResolvedValue({ data: {} });
+
+    await getAllServerByService(req, res, next);
 
     expect(next).toHaveBeenCalledWith(err);
   });
