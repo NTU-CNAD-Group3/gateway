@@ -10,8 +10,8 @@ await jest.unstable_mockModule('jsonwebtoken', () => ({
   },
 }));
 
-const mockReq = (headers = {}) => ({
-  headers,
+const mockReq = (session = {}) => ({
+  session,
 });
 const mockRes = () => {
   const res = {};
@@ -38,7 +38,7 @@ describe('authenticateToken', () => {
   });
 
   test('should respond 403 if token is invalid', () => {
-    const req = mockReq({ authorization: 'Bearer fakeToken' });
+    const req = mockReq({ jwt: 'Bearer fakeToken' });
     const res = mockRes();
 
     mockVerify.mockImplementation((token, secret, cb) => cb(new Error('Invalid'), null));
@@ -51,7 +51,7 @@ describe('authenticateToken', () => {
   });
 
   test('should call next if token is valid', () => {
-    const req = mockReq({ authorization: 'Bearer validToken' });
+    const req = mockReq({ jwt: 'Bearer validToken' });
     const res = mockRes();
     const decoded = { id: 1, role: 'admin' };
 
