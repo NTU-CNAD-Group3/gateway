@@ -7,39 +7,41 @@ import { authorize } from '#src/middleware/authorize.js';
 const router = express.Router();
 // authenticateToken, authorize(['user', 'admin']),
 // DC
-router.post('/backend/DC', authenticateToken, authorize(['admin']), backendController.createDc);
-router.get('/backend/DC', authenticateToken, authorize(['user', 'admin']), backendController.getDc);
-router.put('/backend/DC', authenticateToken, authorize(['admin']), backendController.updateDc);
-router.delete('/backend/DC', authenticateToken, authorize(['admin']), backendController.deleteDc);
-router.get('/backend/allDC', authenticateToken, authorize(['user', 'admin']), backendController.getAllDc);
+const all = ['verified_user', 'unverified_user', 'admin'];
+// const admin = ['admin'];
+router.post('/backend/DC', authenticateToken, authorize(all), backendController.createDc);
+router.get('/backend/DC', authenticateToken, authorize(all), backendController.getDc);
+router.put('/backend/DC', authenticateToken, authorize(all), backendController.updateDc);
+router.delete('/backend/DC', authenticateToken, authorize(all), backendController.deleteDc);
+router.get('/backend/allDC', authenticateToken, authorize(all), backendController.getAllDc);
 // Room
-router.post('/backend/rooms', authenticateToken, authorize(['admin']), backendController.createRooms);
-router.get('/backend/room', authenticateToken, authorize(['user', 'admin']), backendController.getRoom);
-router.put('/backend/room', authenticateToken, authorize(['admin']), backendController.updateRoom);
-router.delete('/backend/room', authenticateToken, authorize(['admin']), backendController.deleteRoom);
+router.post('/backend/rooms', authenticateToken, authorize(all), backendController.createRooms);
+router.get('/backend/room', authenticateToken, authorize(all), backendController.getRoom);
+router.put('/backend/room', authenticateToken, authorize(all), backendController.updateRoom);
+router.delete('/backend/room', authenticateToken, authorize(all), backendController.deleteRoom);
 
 // Rack
-router.post('/backend/racks', authenticateToken, authorize(['admin']), backendController.createRacks);
-router.get('/backend/rack', authenticateToken, authorize(['user', 'admin']), backendController.getRack);
-router.put('/backend/rack', authenticateToken, authorize(['admin']), backendController.updateRack);
-router.delete('/backend/rack', authenticateToken, authorize(['admin']), backendController.deleteRack);
+router.post('/backend/racks', authenticateToken, authorize(all), backendController.createRacks);
+router.get('/backend/rack', authenticateToken, authorize(all), backendController.getRack);
+router.put('/backend/rack', authenticateToken, authorize(all), backendController.updateRack);
+router.delete('/backend/rack', authenticateToken, authorize(all), backendController.deleteRack);
 
 // Server
-router.post('/backend/server', authenticateToken, authorize(['user', 'admin']), backendController.createServer);
-router.get('/backend/server', authenticateToken, authorize(['user', 'admin']), backendController.getServer);
-router.put('/backend/server', authenticateToken, authorize(['user', 'admin']), backendController.updateServer);
-router.delete('/backend/server', authenticateToken, authorize(['user', 'admin']), backendController.deleteServer);
-router.get('/backend/server/allServer', authenticateToken, authorize(['user', 'admin']), backendController.getAllServer);
-router.get('/backend/server/name', authenticateToken, authorize(['user', 'admin']), backendController.getServerByName);
-router.get('/backend/server/ip', authenticateToken, authorize(['user', 'admin']), backendController.getServerByIp);
-router.get('/backend/server/service', authenticateToken, authorize(['user', 'admin']), backendController.getAllServerByService);
+router.post('/backend/server', authenticateToken, authorize(all), backendController.createServer);
+router.get('/backend/server', authenticateToken, authorize(all), backendController.getServer);
+router.put('/backend/server', authenticateToken, authorize(all), backendController.updateServer);
+router.delete('/backend/server', authenticateToken, authorize(all), backendController.deleteServer);
+router.get('/backend/server/allServer', authenticateToken, authorize(all), backendController.getAllServer);
+router.get('/backend/server/name', authenticateToken, authorize(all), backendController.getServerByName);
+router.get('/backend/server/ip', authenticateToken, authorize(all), backendController.getServerByIp);
+router.get('/backend/server/service', authenticateToken, authorize(all), backendController.getAllServerByService);
 // IP
-router.post('/backend/ip', authenticateToken, authorize(['user', 'admin']), backendController.assign);
-router.post('/backend/ip/pool', authenticateToken, authorize(['user', 'admin']), backendController.createIpPool);
-router.delete('/backend/ip', authenticateToken, authorize(['user', 'admin']), backendController.release);
-router.get('/backend/ip/allIp', authenticateToken, authorize(['user', 'admin']), backendController.getAllIp);
-router.get('/backend/ip/usedIp', authenticateToken, authorize(['user', 'admin']), backendController.getUsedIp);
-router.get('/backend/ip/pool', authenticateToken, authorize(['user', 'admin']), backendController.getIpPool);
-router.get('/backend/ip/allPools', authenticateToken, authorize(['user', 'admin']), backendController.getAllIpPools);
+router.post('/backend/ip', authenticateToken, authorize(all), backendController.assign);
+router.post('/backend/ip/pool', authenticateToken, authorize(all), backendController.createIpPool);
+router.delete('/backend/ip', authenticateToken, authorize(all), backendController.release);
+router.get('/backend/ip/allIp', authenticateToken, authorize(all), backendController.getAllIp);
+router.get('/backend/ip/usedIp', authenticateToken, authorize(all), backendController.getUsedIp);
+router.get('/backend/ip/pool', authenticateToken, authorize(all), backendController.getIpPool);
+router.get('/backend/ip/allPools', authenticateToken, authorize(all), backendController.getAllIpPools);
 
 export default router;

@@ -6,6 +6,7 @@ class Config {
     this.PORT = process.env.PORT || 8000;
     this.API_VERSION = process.env.API_VERSION || 'v1';
     this.SECRET_KEY = process.env.SECRET_KEY || '123';
+    this.JWT_TOKEN = process.env.JWT_TOKEN || '456';
     this.CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
     this.AUTH_BASE_URL = process.env.AUTH_BASE_URL || 'http://localhost:8003';
     this.BACKEND_BASE_URL = process.env.BACKEND_BASE_URL || 'http://localhost:8004';
