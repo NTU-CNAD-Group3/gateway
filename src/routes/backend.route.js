@@ -30,6 +30,9 @@ router.get('/backend/server', authenticateToken, authorize(['user', 'admin']), b
 router.put('/backend/server', authenticateToken, authorize(['user', 'admin']), backendController.updateServer);
 router.delete('/backend/server', authenticateToken, authorize(['user', 'admin']), backendController.deleteServer);
 router.get('/backend/server/allServer', authenticateToken, authorize(['user', 'admin']), backendController.getAllServer);
+router.get('/backend/server/name', authenticateToken, authorize(['user', 'admin']), backendController.getServerByName);
+router.get('/backend/server/ip', authenticateToken, authorize(['user', 'admin']), backendController.getServerByIp);
+router.get('/backend/server/service', authenticateToken, authorize(['user', 'admin']), backendController.getAllServerByService);
 // IP
 router.post('/backend/ip', authenticateToken, authorize(['user', 'admin']), backendController.assign);
 router.post('/backend/ip/pool', authenticateToken, authorize(['user', 'admin']), backendController.createIpPool);
