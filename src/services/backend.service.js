@@ -73,8 +73,23 @@ export const createServerService = async (req) => {
   return response;
 };
 
-export const updateServerService = async (req) => {
-  const response = await axios.put(config.UPDATE_SERVER, req.body);
+export const updateServerByNameService = async (req) => {
+  const response = await axios.put(config.UPDATE_BY_NAME, req.body);
+  return response;
+};
+
+export const movingServerService = async (req) => {
+  const response = await axios.put(config.MOVE_SERVER, req.body);
+  return response;
+};
+
+export const repairService = async (req) => {
+  const response = await axios.put(config.REPAIR, req.body);
+  return response;
+};
+
+export const brokenService = async (req) => {
+  const response = await axios.put(config.BROKEN, req.body);
   return response;
 };
 
@@ -88,18 +103,13 @@ export const getAllServerService = async (req) => {
   return response;
 };
 
-export const getServerByNameService = async (req) => {
-  const response = await axios.get(config.GET_SERVER_BY_NAME, { params: req.query });
+export const searchingServerService = async (req) => {
+  const response = await axios.get(config.SEARCHING_SERVER, { params: req.query });
   return response;
 };
 
-export const getServerByIpService = async (req) => {
-  const response = await axios.get(config.GET_SERVER_BY_IP, { params: req.query });
-  return response;
-};
-
-export const getServerByServiceService = async (req) => {
-  const response = await axios.get(config.GET_SERVER_BY_SERVICE, { params: req.query });
+export const getAllBrokenService = async (req) => {
+  const response = await axios.get(config.GET_ALL_BROKEN_SERVER, { params: req.query });
   return response;
 };
 

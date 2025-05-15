@@ -1,295 +1,149 @@
 import { jest } from '@jest/globals';
-const mockGet = jest.fn();
-const mockPost = jest.fn();
-const mockPut = jest.fn();
-const mockDelete = jest.fn();
 
-await jest.unstable_mockModule('#src/utils/axios.js', () => ({
-  default: {
-    create: jest.fn(() => ({
-      get: mockGet,
-      post: mockPost,
-      put: mockPut,
-      delete: mockDelete,
-    })),
-  },
-}));
-
+// 模擬 config 常數
 await jest.unstable_mockModule('#src/config.js', () => ({
   default: {
-    GET_DC: '/get-dc',
-    CREATE_DC: '/create-dc',
-    GET_ALL_DC: '/get-all-dc',
-    UPDATE_DC: '/update-dc',
-    DELETE_DC: '/delete-dc',
-    GET_ROOM: '/get-room',
-    CREATE_ROOMS: '/create-room',
-    UPDATE_ROOM: '/update-room',
-    DELETE_ROOM: '/delete-room',
-    GET_RACK: '/get-rack',
-    CREATE_RACKS: '/create-rack',
-    UPDATE_RACK: '/update-rack',
-    DELETE_RACK: '/delete-rack',
+    GET_DC: '/dc',
+    CREATE_DC: '/dc/create',
+    GET_ALL_DC: '/dc/all',
+    UPDATE_DC: '/dc/update',
+    DELETE_DC: '/dc/delete',
+    GET_ROOM: '/room',
+    CREATE_ROOMS: '/room/create',
+    UPDATE_ROOM: '/room/update',
+    DELETE_ROOM: '/room/delete',
+    GET_RACK: '/rack',
+    CREATE_RACKS: '/rack/create',
+    UPDATE_RACK: '/rack/update',
+    DELETE_RACK: '/rack/delete',
+    GET_SERVER: '/server',
+    CREATE_SERVER: '/server/create',
+    UPDATE_BY_NAME: '/server/updateName',
+    MOVE_SERVER: '/server/move',
+    REPAIR: '/server/repair',
+    BROKEN: '/server/broken',
+    DELETE_SERVER: '/server/delete',
+    GET_ALL_SERVER: '/server/all',
+    SEARCHING_SERVER: '/server/search',
+    GET_ALL_BROKEN_SERVER: '/server/broken/all',
+    ASSIGN_IP: '/ip/assign',
+    CREATE_IP_POOL: '/ip/createPool',
+    RELEASE_IP: '/ip/release',
+    GET_ALL_IP: '/ip/all',
+    GET_USED_IP: '/ip/used',
+    GET_IP_POOL: '/ip/pool',
   },
 }));
 
-const { getDcService, createDcService, getAllDcService, updateDcService, deleteDcService } = await import(
-  '#src/services/backend.service.js'
-);
+// 模擬 axios instance 和 .create 回傳的客製 axios
+const mockAxios = {
+  get: jest.fn(),
+  post: jest.fn(),
+  put: jest.fn(),
+  delete: jest.fn(),
+};
+const mockCreate = jest.fn(() => mockAxios);
 
-const { getRoomService, createRoomsService, updateRoomService, deleteRoomService } = await import('#src/services/backend.service.js');
+await jest.unstable_mockModule('#src/utils/axios.js', () => ({
+  default: { create: mockCreate },
+}));
 
-const { getRackService, createRacksService, updateRackService, deleteRackService } = await import('#src/services/backend.service.js');
+// 匯入 service
+const service = await import('#src/services/backend.service.js');
+const config = (await import('#src/config.js')).default;
 
-describe('backend.service', () => {
+const mockReq = {
+  body: { key: 'value' },
+  query: { q: 'search' },
+};
+
+describe('backend.service.js', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  test('getDcService should call axios.get with correct params', async () => {
-    const req = { query: { id: 1 } };
-    const fakeResponse = { data: { success: true } };
-    mockGet.mockResolvedValue(fakeResponse);
+  const getTests = [
+    ['getDcService', config.GET_DC, 'get', { params: mockReq.query }],
+    ['getAllDcService', config.GET_ALL_DC, 'get', mockReq.body],
+    ['getRoomService', config.GET_ROOM, 'get', { params: mockReq.query }],
+    ['getRackService', config.GET_RACK, 'get', { params: mockReq.query }],
+    ['getServerService', config.GET_SERVER, 'get', { params: mockReq.query }],
+    ['getAllServerService', config.GET_ALL_SERVER, 'get', mockReq.body],
+    ['searchingServerService', config.SEARCHING_SERVER, 'get', { params: mockReq.query }],
+    ['getAllBrokenService', config.GET_ALL_BROKEN_SERVER, 'get', { params: mockReq.query }],
+    ['getAllIpService', config.GET_ALL_IP, 'get', mockReq.body],
+    ['getUsedIpService', config.GET_USED_IP, 'get', mockReq.body],
+    ['getIpPoolService', config.GET_IP_POOL, 'get', { params: mockReq.query }],
+  ];
 
-    const result = await getDcService(req);
+  const postTests = [
+    ['createDcService', config.CREATE_DC, 'post'],
+    ['createRoomsService', config.CREATE_ROOMS, 'post'],
+    ['createRacksService', config.CREATE_RACKS, 'post'],
+    ['createServerService', config.CREATE_SERVER, 'post'],
+    ['assignService', config.ASSIGN_IP, 'post'],
+    ['createIpPoolService', config.CREATE_IP_POOL, 'post'],
+  ];
 
-    expect(mockGet).toHaveBeenCalledWith('/get-dc', { params: req.query });
-    expect(result).toBe(fakeResponse);
+  const putTests = [
+    ['updateDcService', config.UPDATE_DC],
+    ['updateRoomService', config.UPDATE_ROOM],
+    ['updateRackService', config.UPDATE_RACK],
+    ['updateServerByNameService', config.UPDATE_BY_NAME],
+    ['movingServerService', config.MOVE_SERVER],
+    ['repairService', config.REPAIR],
+    ['brokenService', config.BROKEN],
+  ];
+
+  const deleteTests = [
+    ['deleteDcService', config.DELETE_DC],
+    ['deleteRoomService', config.DELETE_ROOM],
+    ['deleteRackService', config.DELETE_RACK],
+    ['deleteServerService', config.DELETE_SERVER],
+    ['releaseService', config.RELEASE_IP],
+  ];
+
+  getTests.forEach(([fnName, url, method, expectedPayload]) => {
+    test(`${fnName} should call axios.${method} with ${url}`, async () => {
+      mockAxios[method].mockResolvedValueOnce({ data: 'mocked response' });
+
+      const result = await service[fnName](mockReq);
+
+      expect(mockAxios[method]).toHaveBeenCalledWith(url, expectedPayload);
+      expect(result.data).toBe('mocked response');
+    });
   });
 
-  test('createDcService should call axios.post with correct body', async () => {
-    const req = { body: { name: 'new dc' } };
-    const fakeResponse = { data: { success: true } };
-    mockPost.mockResolvedValue(fakeResponse);
+  postTests.forEach(([fnName, url]) => {
+    test(`${fnName} should post to ${url}`, async () => {
+      mockAxios.post.mockResolvedValueOnce({ data: 'mocked post' });
 
-    const result = await createDcService(req);
+      const result = await service[fnName](mockReq);
 
-    expect(mockPost).toHaveBeenCalledWith('/create-dc', req.body);
-    expect(result).toBe(fakeResponse);
+      expect(mockAxios.post).toHaveBeenCalledWith(url, mockReq.body);
+      expect(result.data).toBe('mocked post');
+    });
   });
 
-  test('getAllDcService should call axios.get with body', async () => {
-    const req = { body: { filter: 'all' } };
-    const fakeResponse = { data: { success: true } };
-    mockGet.mockResolvedValue(fakeResponse);
+  putTests.forEach(([fnName, url]) => {
+    test(`${fnName} should put to ${url}`, async () => {
+      mockAxios.put.mockResolvedValueOnce({ data: 'mocked put' });
 
-    const result = await getAllDcService(req);
+      const result = await service[fnName](mockReq);
 
-    expect(mockGet).toHaveBeenCalledWith('/get-all-dc', req.body);
-    expect(result).toBe(fakeResponse);
+      expect(mockAxios.put).toHaveBeenCalledWith(url, mockReq.body);
+      expect(result.data).toBe('mocked put');
+    });
   });
 
-  test('updateDcService should call axios.put with body', async () => {
-    const req = { body: { id: 1, name: 'updated dc' } };
-    const fakeResponse = { data: { success: true } };
-    mockPut.mockResolvedValue(fakeResponse);
+  deleteTests.forEach(([fnName, url]) => {
+    test(`${fnName} should delete to ${url}`, async () => {
+      mockAxios.delete.mockResolvedValueOnce({ data: 'mocked delete' });
 
-    const result = await updateDcService(req);
+      const result = await service[fnName](mockReq);
 
-    expect(mockPut).toHaveBeenCalledWith('/update-dc', req.body);
-    expect(result).toBe(fakeResponse);
-  });
-
-  test('deleteDcService should call axios.delete with body', async () => {
-    const req = { body: { id: 1 } };
-    const fakeResponse = { data: { success: true } };
-    mockDelete.mockResolvedValue(fakeResponse);
-
-    const result = await deleteDcService(req);
-
-    expect(mockDelete).toHaveBeenCalledWith('/delete-dc', { data: req.body });
-    expect(result).toBe(fakeResponse);
-  });
-
-  test('getRoomService should call axios.get with correct params', async () => {
-    const req = { query: { roomId: 1 } };
-    const fakeResponse = { data: { success: true, room: { id: 1, name: 'Room 1' } } };
-    mockGet.mockResolvedValue(fakeResponse);
-
-    const result = await getRoomService(req);
-
-    expect(mockGet).toHaveBeenCalledWith('/get-room', { params: req.query });
-    expect(result).toBe(fakeResponse);
-  });
-
-  test('createRoomsService should call axios.post with correct body', async () => {
-    const req = { body: { name: 'New Room' } };
-    const fakeResponse = { data: { success: true, room: { id: 2, name: 'New Room' } } };
-    mockPost.mockResolvedValue(fakeResponse);
-
-    const result = await createRoomsService(req);
-
-    expect(mockPost).toHaveBeenCalledWith('/create-room', req.body);
-    expect(result).toBe(fakeResponse);
-  });
-
-  test('updateRoomService should call axios.put with correct body', async () => {
-    const req = { body: { roomId: 1, name: 'Updated Room' } };
-    const fakeResponse = { data: { success: true, room: { id: 1, name: 'Updated Room' } } };
-    mockPut.mockResolvedValue(fakeResponse);
-
-    const result = await updateRoomService(req);
-
-    expect(mockPut).toHaveBeenCalledWith('/update-room', req.body);
-    expect(result).toBe(fakeResponse);
-  });
-
-  test('deleteRoomService should call axios.delete with correct body', async () => {
-    const req = { body: { roomId: 1 } };
-    const fakeResponse = { data: { success: true } };
-    mockDelete.mockResolvedValue(fakeResponse);
-
-    const result = await deleteRoomService(req);
-
-    expect(mockDelete).toHaveBeenCalledWith('/delete-room', { data: req.body });
-    expect(result).toBe(fakeResponse);
-  });
-
-  // Edge cases and error handling tests
-
-  test('getRoomService should handle axios get failure', async () => {
-    const req = { query: { roomId: 1 } };
-    const error = new Error('Failed to fetch room');
-    mockGet.mockRejectedValue(error);
-
-    try {
-      await getRoomService(req);
-    } catch (e) {
-      expect(e).toBe(error);
-    }
-  });
-
-  test('createRoomsService should handle axios post failure', async () => {
-    const req = { body: { name: 'New Room' } };
-    const error = new Error('Failed to create room');
-    mockPost.mockRejectedValue(error);
-
-    try {
-      await createRoomsService(req);
-    } catch (e) {
-      expect(e).toBe(error);
-    }
-  });
-
-  test('updateRoomService should handle axios put failure', async () => {
-    const req = { body: { roomId: 1, name: 'Updated Room' } };
-    const error = new Error('Failed to update room');
-    mockPut.mockRejectedValue(error);
-
-    try {
-      await updateRoomService(req);
-    } catch (e) {
-      expect(e).toBe(error);
-    }
-  });
-
-  test('deleteRoomService should handle axios delete failure', async () => {
-    const req = { body: { roomId: 1 } };
-    const error = new Error('Failed to delete room');
-    mockDelete.mockRejectedValue(error);
-
-    try {
-      await deleteRoomService(req);
-    } catch (e) {
-      expect(e).toBe(error);
-    }
-  });
-});
-describe('Rack services', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  test('getRackService should call axios.get with correct params', async () => {
-    const req = { query: { rackId: 1 } };
-    const fakeResponse = { data: { success: true } };
-    mockGet.mockResolvedValue(fakeResponse);
-
-    const result = await getRackService(req);
-
-    expect(mockGet).toHaveBeenCalledWith('/get-rack', { params: req.query });
-    expect(result).toBe(fakeResponse);
-  });
-
-  test('createRacksService should call axios.post with correct body', async () => {
-    const req = { body: { name: 'New Rack' } };
-    const fakeResponse = { data: { success: true } };
-    mockPost.mockResolvedValue(fakeResponse);
-
-    const result = await createRacksService(req);
-
-    expect(mockPost).toHaveBeenCalledWith('/create-rack', req.body); // 注意：你這裡 config 是 ROOM
-    expect(result).toBe(fakeResponse);
-  });
-
-  test('updateRackService should call axios.put with correct body', async () => {
-    const req = { body: { rackId: 1, name: 'Updated Rack' } };
-    const fakeResponse = { data: { success: true } };
-    mockPut.mockResolvedValue(fakeResponse);
-
-    const result = await updateRackService(req);
-
-    expect(mockPut).toHaveBeenCalledWith('/update-rack', req.body);
-    expect(result).toBe(fakeResponse);
-  });
-
-  test('deleteRackService should call axios.delete with correct body', async () => {
-    const req = { body: { rackId: 1 } };
-    const fakeResponse = { data: { success: true } };
-    mockDelete.mockResolvedValue(fakeResponse);
-
-    const result = await deleteRackService(req);
-
-    expect(mockDelete).toHaveBeenCalledWith('/delete-rack', { data: req.body });
-    expect(result).toBe(fakeResponse);
-  });
-
-  // Error handling
-  test('getRackService should handle axios.get error', async () => {
-    const req = { query: { rackId: 1 } };
-    const error = new Error('Failed to fetch rack');
-    mockGet.mockRejectedValue(error);
-
-    try {
-      await getRackService(req);
-    } catch (e) {
-      expect(e).toBe(error);
-    }
-  });
-
-  test('createRacksService should handle axios.post error', async () => {
-    const req = { body: { name: 'New Rack' } };
-    const error = new Error('Failed to create rack');
-    mockPost.mockRejectedValue(error);
-
-    try {
-      await createRacksService(req);
-    } catch (e) {
-      expect(e).toBe(error);
-    }
-  });
-
-  test('updateRackService should handle axios.put error', async () => {
-    const req = { body: { rackId: 1, name: 'Updated Rack' } };
-    const error = new Error('Failed to update rack');
-    mockPut.mockRejectedValue(error);
-
-    try {
-      await updateRackService(req);
-    } catch (e) {
-      expect(e).toBe(error);
-    }
-  });
-
-  test('deleteRackService should handle axios.delete error', async () => {
-    const req = { body: { rackId: 1 } };
-    const error = new Error('Failed to delete rack');
-    mockDelete.mockRejectedValue(error);
-
-    try {
-      await deleteRackService(req);
-    } catch (e) {
-      expect(e).toBe(error);
-    }
+      expect(mockAxios.delete).toHaveBeenCalledWith(url, { data: mockReq.body });
+      expect(result.data).toBe('mocked delete');
+    });
   });
 });

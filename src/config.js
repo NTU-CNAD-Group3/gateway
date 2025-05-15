@@ -28,15 +28,18 @@ class Config {
     this.DELETE_RACK = '/rack';
     this.GET_SERVER = '/server';
     this.CREATE_SERVER = '/server';
-    this.UPDATE_SERVER = '/server';
+    this.MOVE_SERVER = '/server';
     this.DELETE_SERVER = '/server';
     this.GET_ALL_SERVER = '/server/allServers';
-    this.GET_SERVER_BY_NAME = '/server/name';
-    this.GET_SERVER_BY_IP = '/server/ip';
-    this.GET_SERVER_BY_SERVICE = '/server/service';
-    this.ASSIGN_IP = '/ip';
+    this.UPDATE_BY_NAME = '/server/name';
+    this.SEARCHING_SERVER = '/server/searching';
+    this.REPAIR = '/server/repair';
+    this.BROKEN = '/server/broken';
+    this.GET_ALL_BROKEN_SERVER = '/server/allBrokenServers';
+
+    // this.ASSIGN_IP = '/ip';
     this.CREATE_IP_POOL = '/ip/pool';
-    this.RELEASE = '/ip';
+    // this.RELEASE = '/ip';
     this.GET_ALL_IP = '/ip/allIp';
     this.GET_USED_IP = '/ip/usedIp';
     this.GET_IP_POOL = '/ip/pool';
