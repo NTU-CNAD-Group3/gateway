@@ -44,3 +44,20 @@ cp .env.development .env
 |     /api/v1/gateway/backend/rack  |  PUT   | Update rack with id,name         |
 |     /api/v1/gateway/backend/rack  | DELETE |      delete rack with r/rk,id    |
 |     /api/v1/gateway/backend/rack  |  GET   |    get rack with name,r/rkid     |
+|             Endpoint                            | Method |           Description            |
+|:-----------------------------------------------:|:------:|:--------------------------------:|
+|  /api/v1/gateway/backend/server                 |  POST  |    create a server               |
+|  /api/v1/gateway/backend/server                 |  PUT   |    Move a server                 |
+|  /api/v1/gateway/backend/server                 | DELETE |    Delete a server by id         |
+|/api/server/v1/gateway/backend/repair            |  PUT   |     set server healthy           |
+|/api/server/v1/gateway/backend/broken            |  PUT   |    set server not healthy        |
+|    /api/server/v1/gateway/backend/name          |  PUT   |       Update serve name          |
+|/api/v1/gateway/backend/server                   |  GET   |    Get a server by id            |
+|/api/v1/gateway/backend/server/AllServers        |  GET   |   Get all servers                |
+|/api/v1/gateway/backend/server/searching         |  GET   |    Get a server searching        |
+|/api/server/v1/gateway/backend/allBrokenServers  |  GET   | Get all servers broken           |
+|/api/v1/gateway/backend/ip/pool                  |  POST  |    create a ip pool              |
+|/api/v1/gateway/backend/ip/pool                  |  GET   |    Get a ippool by id            |
+|/api/v1/gateway/backend/ip/allIp                 |  GET   |   Get all service ip             |
+|/api/v1/gateway/backend/ip/usedIp                |  GET   |    Get ips which are used        |
+|/api/server/v1/gateway/backend/allPools          |  GET   | Get all ippools                  |

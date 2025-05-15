@@ -65,8 +65,20 @@ export const getServer = async (req, res, next) => {
   const response = await backendService.getServerService(req);
   res.status(200).json(response.data);
 };
-export const updateServer = async (req, res, next) => {
-  const response = await backendService.updateServerService(req);
+export const updateServerName = async (req, res, next) => {
+  const response = await backendService.updateServerByNameService(req);
+  res.status(200).json(response.data);
+};
+export const movingServer = async (req, res, next) => {
+  const response = await backendService.movingServerService(req);
+  res.status(200).json(response.data);
+};
+export const repairServer = async (req, res, next) => {
+  const response = await backendService.repairService(req);
+  res.status(200).json(response.data);
+};
+export const brokeServer = async (req, res, next) => {
+  const response = await backendService.brokenService(req);
   res.status(200).json(response.data);
 };
 export const deleteServer = async (req, res, next) => {
@@ -77,30 +89,38 @@ export const getAllServer = async (req, res, next) => {
   const response = await backendService.getAllServerService(req);
   res.status(200).json(response.data);
 };
-export const getServerByName = async (req, res, next) => {
-  const response = await backendService.getServerByNameService(req);
+export const getAllBrokenServer = async (req, res, next) => {
+  const response = await backendService.getAllBrokenService(req);
   res.status(200).json(response.data);
 };
-export const getServerByIp = async (req, res, next) => {
-  const response = await backendService.getServerByIpService(req);
+export const searchingServer = async (req, res, next) => {
+  const response = await backendService.searchingServerService(req);
   res.status(200).json(response.data);
 };
-export const getAllServerByService = async (req, res, next) => {
-  const response = await backendService.getServerByServiceService(req);
-  res.status(200).json(response.data);
-};
-export const assign = async (req, res, next) => {
-  const response = await backendService.assignService(req);
-  res.status(201).json(response.data);
-};
+// export const getServerByName = async (req, res, next) => {
+//   const response = await backendService.getServerByNameService(req);
+//   res.status(200).json(response.data);
+// };
+// export const getServerByIp = async (req, res, next) => {
+//   const response = await backendService.getServerByIpService(req);
+//   res.status(200).json(response.data);
+// };
+// export const getAllServerByService = async (req, res, next) => {
+//   const response = await backendService.getServerByServiceService(req);
+//   res.status(200).json(response.data);
+// };
+// export const assign = async (req, res, next) => {
+//   const response = await backendService.assignService(req);
+//   res.status(201).json(response.data);
+// };
 export const createIpPool = async (req, res, next) => {
   const response = await backendService.createIpPoolService(req);
   res.status(201).json(response.data);
 };
-export const release = async (req, res, next) => {
-  const response = await backendService.releaseService(req);
-  res.status(200).json(response.data);
-};
+// export const release = async (req, res, next) => {
+//   const response = await backendService.releaseService(req);
+//   res.status(200).json(response.data);
+// };
 export const getAllIp = async (req, res, next) => {
   const response = await backendService.getAllIpService(req);
   res.status(200).json(response.data);

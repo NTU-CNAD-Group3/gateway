@@ -29,16 +29,18 @@ router.delete('/backend/rack', authenticateToken, authorize(all), backendControl
 // Server
 router.post('/backend/server', authenticateToken, authorize(all), backendController.createServer);
 router.get('/backend/server', authenticateToken, authorize(all), backendController.getServer);
-router.put('/backend/server', authenticateToken, authorize(all), backendController.updateServer);
+router.put('/backend/server', authenticateToken, authorize(all), backendController.movingServer);
+router.put('/backend/server/repair', authenticateToken, authorize(all), backendController.repairServer);
+router.put('/backend/server/broken', authenticateToken, authorize(all), backendController.brokeServer);
+router.put('/backend/server/name', authenticateToken, authorize(all), backendController.updateServerName);
 router.delete('/backend/server', authenticateToken, authorize(all), backendController.deleteServer);
 router.get('/backend/server/allServer', authenticateToken, authorize(all), backendController.getAllServer);
-router.get('/backend/server/name', authenticateToken, authorize(all), backendController.getServerByName);
-router.get('/backend/server/ip', authenticateToken, authorize(all), backendController.getServerByIp);
-router.get('/backend/server/service', authenticateToken, authorize(all), backendController.getAllServerByService);
+router.get('/backend/server/allBrokenServer', authenticateToken, authorize(all), backendController.getAllBrokenServer);
+router.get('/backend/server/searching', authenticateToken, authorize(all), backendController.searchingServer);
 // IP
-router.post('/backend/ip', authenticateToken, authorize(all), backendController.assign);
+// router.post('/backend/ip', authenticateToken, authorize(all), backendController.assign);
 router.post('/backend/ip/pool', authenticateToken, authorize(all), backendController.createIpPool);
-router.delete('/backend/ip', authenticateToken, authorize(all), backendController.release);
+// router.delete('/backend/ip', authenticateToken, authorize(all), backendController.release);
 router.get('/backend/ip/allIp', authenticateToken, authorize(all), backendController.getAllIp);
 router.get('/backend/ip/usedIp', authenticateToken, authorize(all), backendController.getUsedIp);
 router.get('/backend/ip/pool', authenticateToken, authorize(all), backendController.getIpPool);
