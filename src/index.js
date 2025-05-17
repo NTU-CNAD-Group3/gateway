@@ -15,8 +15,7 @@ import routes from '#src/routes/index.js';
 
 const app = express();
 
-// GCP load balancer (HTTPS) -> istio gateway (HTTP) -> gateway service 
-app.set('trust proxy', 2); 
+app.set('trust proxy', 1);
 
 app.use(compression());
 app.use(express.urlencoded({ extended: true, limit: '200mb' }));
@@ -54,7 +53,7 @@ app.use((req, res, next) => {
     const route = req.route ? req.route.path : '';
     if (res.statusCode < 400) {
       logger.info({
-        message: `msg=Received response method=${req.method} path=${route} ip=${req.ip} status=${res.statusCode} url=${req.originalUrl}`,
+        message: `msg=Received response method=${req.method} path=${route} ip=${req.ip} status=${res.statusCode} url=${req.originalUrl} headers=${JSON.stringify(req.headers)}`,
       });
     }
   });
