@@ -15,7 +15,8 @@ import routes from '#src/routes/index.js';
 
 const app = express();
 
-app.set('trust proxy', 1);
+// GCP load balancer (HTTPS) -> istio gateway (HTTP) -> gateway service 
+app.set('trust proxy', 2); 
 
 app.use(compression());
 app.use(express.urlencoded({ extended: true, limit: '200mb' }));
@@ -39,7 +40,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
       secure: process.env.NODE_ENV === 'production', // secure is true means only use cookie over https
       ...(process.env.NODE_ENV === 'production' && {
-        sameSite: 'none', // sameSite is none means enable cross-site access
+        sameSite: 'lax',
       }),
     },
   }),
