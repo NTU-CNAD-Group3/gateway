@@ -37,7 +37,8 @@ app.use(
     saveUninitialized: false, // don't store empty session
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-      secure: process.env.NODE_ENV === 'production', // secure is true means only use cookie over https
+      // secure: process.env.NODE_ENV === 'production', // secure is true means only use cookie over https
+      secure: false, // because we haven't set the tls in istio gateway
       ...(process.env.NODE_ENV === 'production' && {
         sameSite: 'lax',
       }),
