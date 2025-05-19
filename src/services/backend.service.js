@@ -145,6 +145,6 @@ export const getIpPoolService = async (req) => {
 };
 
 export const getAllIpPoolsService = async (req) => {
-  const response = await axios.get(config.GET_ALL_IP_POOLS, { params: mockReq.query });
+  const response = await axios.get(config.GET_ALL_IP_POOLS,  { params: req.query });
   return response;
 };
