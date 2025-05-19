@@ -12,7 +12,7 @@ export const createDcService = async (req) => {
   return response;
 };
 export const getAllDcService = async (req) => {
-  const response = await axios.get(config.GET_ALL_DC, req.body);
+  const response = await axios.get(config.GET_ALL_DC, { params: req.query });
   return response;
 };
 export const updateDcService = async (req) => {
@@ -99,7 +99,7 @@ export const deleteServerService = async (req) => {
 };
 
 export const getAllServerService = async (req) => {
-  const response = await axios.get(config.GET_ALL_SERVER, req.body);
+  const response = await axios.get(config.GET_ALL_SERVER, { params: req.query });
   return response;
 };
 
@@ -130,12 +130,12 @@ export const releaseService = async (req) => {
 };
 
 export const getAllIpService = async (req) => {
-  const response = await axios.get(config.GET_ALL_IP, req.body);
+  const response = await axios.get(config.GET_ALL_IP, { params: req.query });
   return response;
 };
 
 export const getUsedIpService = async (req) => {
-  const response = await axios.get(config.GET_USED_IP, req.body);
+  const response = await axios.get(config.GET_USED_IP, { params: req.query });
   return response;
 };
 
@@ -145,6 +145,6 @@ export const getIpPoolService = async (req) => {
 };
 
 export const getAllIpPoolsService = async (req) => {
-  const response = await axios.get(config.GET_ALL_IP_POOLS, req.body);
+  const response = await axios.get(config.GET_ALL_IP_POOLS, { params: mockReq.query });
   return response;
 };

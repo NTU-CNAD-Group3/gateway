@@ -64,15 +64,15 @@ describe('backend.service.js', () => {
 
   const getTests = [
     ['getDcService', config.GET_DC, 'get', { params: mockReq.query }],
-    ['getAllDcService', config.GET_ALL_DC, 'get', mockReq.body],
+    ['getAllDcService', config.GET_ALL_DC, 'get', { params: mockReq.query }],
     ['getRoomService', config.GET_ROOM, 'get', { params: mockReq.query }],
     ['getRackService', config.GET_RACK, 'get', { params: mockReq.query }],
     ['getServerService', config.GET_SERVER, 'get', { params: mockReq.query }],
-    ['getAllServerService', config.GET_ALL_SERVER, 'get', mockReq.body],
+    ['getAllServerService', config.GET_ALL_SERVER, 'get', { params: mockReq.query }],
     ['searchingServerService', config.SEARCHING_SERVER, 'get', { params: mockReq.query }],
     ['getAllBrokenService', config.GET_ALL_BROKEN_SERVER, 'get', { params: mockReq.query }],
-    ['getAllIpService', config.GET_ALL_IP, 'get', mockReq.body],
-    ['getUsedIpService', config.GET_USED_IP, 'get', mockReq.body],
+    ['getAllIpService', config.GET_ALL_IP, 'get', { params: mockReq.query }],
+    ['getUsedIpService', config.GET_USED_IP, 'get', { params: mockReq.query }],
     ['getIpPoolService', config.GET_IP_POOL, 'get', { params: mockReq.query }],
   ];
 
