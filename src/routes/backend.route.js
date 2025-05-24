@@ -8,23 +8,23 @@ const router = express.Router();
 // authenticateToken, authorize(['user', 'admin']),
 // DC
 const all = ['verified_user', 'unverified_user', 'admin'];
-// const admin = ['admin'];
-router.post('/backend/DC', authenticateToken, authorize(all), backendController.createDc);
+const admin = ['admin'];
+router.post('/backend/DC', authenticateToken, authorize(admin), backendController.createDc);
 router.get('/backend/DC', authenticateToken, authorize(all), backendController.getDc);
-router.put('/backend/DC', authenticateToken, authorize(all), backendController.updateDc);
-router.delete('/backend/DC', authenticateToken, authorize(all), backendController.deleteDc);
+router.put('/backend/DC', authenticateToken, authorize(admin), backendController.updateDc);
+router.delete('/backend/DC', authenticateToken, authorize(admin), backendController.deleteDc);
 router.get('/backend/allDC', authenticateToken, authorize(all), backendController.getAllDc);
 // Room
-router.post('/backend/rooms', authenticateToken, authorize(all), backendController.createRooms);
+router.post('/backend/rooms', authenticateToken, authorize(admin), backendController.createRooms);
 router.get('/backend/room', authenticateToken, authorize(all), backendController.getRoom);
-router.put('/backend/room', authenticateToken, authorize(all), backendController.updateRoom);
-router.delete('/backend/room', authenticateToken, authorize(all), backendController.deleteRoom);
+router.put('/backend/room', authenticateToken, authorize(admin), backendController.updateRoom);
+router.delete('/backend/room', authenticateToken, authorize(admin), backendController.deleteRoom);
 
 // Rack
-router.post('/backend/racks', authenticateToken, authorize(all), backendController.createRacks);
+router.post('/backend/racks', authenticateToken, authorize(admin), backendController.createRacks);
 router.get('/backend/rack', authenticateToken, authorize(all), backendController.getRack);
-router.put('/backend/rack', authenticateToken, authorize(all), backendController.updateRack);
-router.delete('/backend/rack', authenticateToken, authorize(all), backendController.deleteRack);
+router.put('/backend/rack', authenticateToken, authorize(admin), backendController.updateRack);
+router.delete('/backend/rack', authenticateToken, authorize(admin), backendController.deleteRack);
 
 // Server
 router.post('/backend/server', authenticateToken, authorize(all), backendController.createServer);
